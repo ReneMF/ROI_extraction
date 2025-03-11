@@ -2,7 +2,8 @@ import os
 import pandas as pd
 
 # ✅ Carpeta raíz de los datos
-DATA_FOLDER = 'Data'
+# DATA_FOLDER = 'Data'
+DATA_FOLDER = '/Volumes/Seagate_Rene/MigrarAlemania/Postdoc_DrMed_UniZuKoeln/Proyecto_OCD-TS/Datos_OCD'
 
 # ✅ Nombres de pacientes
 PAT_NAME = ['FaCe']
@@ -46,7 +47,8 @@ ROIs = {
 }
 
 # ✅ Ruta de salida y nombre del archivo con los resultados
-OUTPUT_FOLDER = 'Dr_Med_OCD_Nac-ALIC_amSTN/OCD_ROI_data'
+# OUTPUT_FOLDER = 'Dr_Med_OCD_Nac-ALIC_amSTN/OCD_ROI_data'
+OUTPUT_FOLDER = '/Users/neuroclinet/Documents/Dr_Med_OCD_Nac-ALIC_amSTN/OCD_ROI_data'
 
 if not os.path.exists(OUTPUT_FOLDER):
     os.makedirs(OUTPUT_FOLDER)  
