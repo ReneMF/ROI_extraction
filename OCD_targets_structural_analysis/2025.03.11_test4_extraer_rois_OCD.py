@@ -2,12 +2,14 @@ import os
 import pandas as pd
 
 # ✅ Carpeta raíz de los datos
-DATA_FOLDER = '/Volumes/Seagate_Rene/MigrarAlemania/Postdoc_DrMed_UniZuKoeln/Proyecto_OCD-TS/Datos_OCD'
+DATA_FOLDER = 'Data'
 
 # ✅ Nombres de pacientes
-PAT_NAME = ['FaCe', 'FuHe', 'GeDr', 'GeMa', 'HeBe', 'HeKa', 'KnJo', 'KoJa',
-            'KuMa', 'LiOt', 'MiSo', 'MoEl', 'NeCa', 'RaRe', 'RoMa', 'ScDa',
-            'SpSa', 'WeBe', 'WoMu']
+PAT_NAME = ['FaCe']
+
+# PAT_NAME = ['FaCe', 'FuHe', 'GeDr', 'GeMa', 'HeBe', 'HeKa', 'KnJo', 'KoJa',
+#             'KuMa', 'LiOt', 'MiSo', 'MoEl', 'NeCa', 'RaRe', 'RoMa', 'ScDa',
+#             'SpSa', 'WeBe', 'WoMu']
 
 # ✅ Subcarpeta donde están los archivos de cada paciente
 PAT_FILES = '{}/dsistudio_new'
@@ -44,7 +46,10 @@ ROIs = {
 }
 
 # ✅ Ruta de salida y nombre del archivo con los resultados
-OUTPUT_FOLDER = '/Users/neuroclinet/Documents/Dr_Med_OCD_Nac-ALIC_amSTN/OCD_ROI_data'
+OUTPUT_FOLDER = 'Dr_Med_OCD_Nac-ALIC_amSTN/OCD_ROI_data'
+
+if not os.path.exists(OUTPUT_FOLDER):
+    os.makedirs(OUTPUT_FOLDER)  
 OUTPUT_FILE = os.path.join(OUTPUT_FOLDER, 'resultados_roi_OCD.csv')
 
 # -------------------------------
@@ -73,21 +78,22 @@ def extract_roi_values(file_path, patient_name):
 
     try:
         # ✅ Leer CSV separado por tabulador
-        df = pd.read_csv(file_path, sep='\t')
+        df = pd.read_csv(file_path, sep='\t', header=1)
     except Exception as e:
         print(f"❌ Error leyendo el archivo {file_path}: {e}")
         return extracted_data
 
     # Normalizamos la columna de ROI eliminando espacios en blanco
-    roi_column = df.columns[0]
-    value_column = df.columns[1]
+    value_column = df.columns[0]
+    roi_column = df.columns[1]
     df[roi_column] = df[roi_column].astype(str).str.strip()
 
     print(f"\n🔍 Procesando archivo: {os.path.basename(file_path)}")
 
     for roi_name, sides in ROIs.items():
         for side, code in sides.items():
-            # Buscar el código específico de ROI en la primera columna del CSV
+            code = f"{side}_{roi_name}"
+
             roi_row = df[df[roi_column] == code]
 
             if not roi_row.empty:
